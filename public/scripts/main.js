@@ -6,7 +6,7 @@ var Link = require('react-router').Link;
 var IndexRoute = require('react-router').IndexRoute;
 var browserHistory = require('react-router').browserHistory;
 
-var Main = require("./components/Main");
+var App = require("./components/App");
 var NotFound = require("./components/NotFound");
 var Movie = require("./components/Movie");
 
@@ -16,7 +16,7 @@ var container = document.getElementById("app");
 
 ReactDOM.render(
     <Router history={browserHistory}>
-        <Route path="/" component={Main}>
+        <Route path="/" component={App}>
         	<IndexRoute component={Movie} />
         	<Route path="/test" component={Test}  />
             <Route path="*" component={NotFound} />
