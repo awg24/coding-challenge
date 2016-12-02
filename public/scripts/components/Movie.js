@@ -16,9 +16,21 @@ module.exports = React.createClass({
 		this.setState({movies: movies, newMovie: ""});
 		
 	},
+	deleteMovie: function(e, index){
+		var movies = this.state.movies.slice(0);
+		movies.splice(index, 1);
+		this.setState({movies: movies, activeForm: false});
+	},
 	handleNewMovieChange: function(e){
 		var title = e.target.value;
 		this.setState({newMovie: title});
+	},
+	updatedInfo: function(e, updatedMovie, index){
+		console.log("run")
+		e.preventDefault();
+		var movies = this.state.movies.slice(0);
+		movies.splice(index, 1, updatedMovie);
+		this.setState({movies: movies, activeForm: false});
 	},
 	render: function(){
 		return (
@@ -31,7 +43,7 @@ module.exports = React.createClass({
 				  <button type="submit" className="btn btn-primary">ADD</button>
 				</form>
 				<div className="col-md-4"></div> 
-				<MovieList movies={this.state.movies}/>
+				<MovieList updatedInfo={this.updatedInfo} deleteMovie={this.deleteMovie} movies={this.state.movies}/>
 			</div>
 		);
 	}

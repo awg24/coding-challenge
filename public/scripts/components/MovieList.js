@@ -3,27 +3,9 @@ var Link = require("react-router").Link;
 var AddInfo = require("./AddInfo");
 
 module.exports = React.createClass({
-	getInitialState: function(){
-		return {
-			movies: [],
-			activeForm: false
-		}
-	},
-	toggleInfoForm: function(){
-		this.setState({activeForm: !this.state.activeForm});
-	},
-	componentWillReceiveProps: function(nextProps) {
-		this.setState({movies: nextProps.movies});
-	},
-	updatedInfo: function(e, updatedMovie, index){
-		e.preventDefault();
-		var movies = this.state.movies.slice(0);
-		movies.splice(index, 1, updatedMovie);
-		this.setState({movies: movies, activeForm: false});
-	},
 	formatMovieList: function(){
 		var that = this;
-		return this.state.movies.map(function(movie, index){
+		return this.props.movies.map(function(movie, index){
 			var movieCopy = Object.assign({}, movie);
 			return  <div key={"movie-"+index} className="panel panel-default">
 						<div className="panel-body">
@@ -32,10 +14,9 @@ module.exports = React.createClass({
 							{movie.actors.length > 0 ? <p>{"Actors: " + movie.actors}</p> : null}
 							{movie.year ? <p>{"Year: " + movie.year}</p> : null}
 							{movie.rating ? <p>{"Rating: " + movie.rating}</p> : null}
-							{that.state.activeForm ? <AddInfo movie={movieCopy} index={index} updatedInfo={that.updatedInfo}/> : null}
 							<div>
-								<button onClick={that.toggleInfoForm} type="button" className="btn btn-sm btn-info">Add Info</button>
-								<button type="button" className="btn pull-right btn-sm btn-danger">Delete</button>
+								<AddInfo movie={movieCopy} index={index} updatedInfo={that.props.updatedInfo}/>
+								<button onClick={()=>{that.props.deleteMovie(index);}} type="button" className="btn pull-right btn-sm btn-danger">Delete</button>
 							</div>
 						</div>
 					</div>
