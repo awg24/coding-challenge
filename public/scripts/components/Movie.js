@@ -1,6 +1,7 @@
 var React = require("react");
 var Link = require("react-router").Link;
 var MovieList = require("./MovieList");
+var Search = require("./Search");
 
 module.exports = React.createClass({
 	getInitialState: function() {
@@ -10,6 +11,12 @@ module.exports = React.createClass({
 			error: ""
 		}	
 	},
+	componentDidMount: function() {
+		var movies = localStorage.getItem("movies");
+		if(movies){
+			this.setState({movies: JSON.parse(movies)});
+		}
+	},
 	addMovie: function(e){
 		e.preventDefault();
 		var movies = this.state.movies.splice(0);
@@ -17,6 +24,7 @@ module.exports = React.createClass({
 		if(!this.state.newMovie){
 			this.setState({error: "This field is required!"});
 		} else {
+			localStorage.setItem("movies", JSON.stringify(movies));
 			this.setState({movies: movies, newMovie: "", error: ""});
 		}
 		
@@ -24,6 +32,7 @@ module.exports = React.createClass({
 	deleteMovie: function(index){
 		var movies = this.state.movies.slice(0);
 		movies.splice(index, 1);
+		localStorage.setItem("movies", JSON.stringify(movies));
 		this.setState({movies: movies, activeForm: false});
 	},
 	handleNewMovieChange: function(e){
@@ -34,22 +43,28 @@ module.exports = React.createClass({
 		e.preventDefault();
 		var movies = this.state.movies.slice(0);
 		movies.splice(index, 1, updatedMovie);
+		localStorage.setItem("movies", JSON.stringify(movies));
 		this.setState({movies: movies});
 	},
 	render: function(){
 		return (
-			<div className="row">
-				<form className="col-md-3" onSubmit={this.addMovie}>
-				  <div className="form-group">
-				    <label htmlFor="newMovie">Add a Movie!</label>
-				    <br/>
-				    <span className="text-danger">{this.state.error}</span>
-				    <input onChange={this.handleNewMovieChange} type="text" value={this.state.newMovie} className="form-control" id="newMovie" placeholder="Movie Name"/>
-				  </div>
-				  <button type="submit" className="btn btn-primary">ADD</button>
-				</form>
-				<div className="col-md-4"></div> 
-				<MovieList updatedInfo={this.updatedInfo} deleteMovie={this.deleteMovie} movies={this.state.movies}/>
+			<div>
+				<Search updatedInfo={this.updatedInfo} deleteMovie={this.deleteMovie} movies={this.state.movies} />	
+				<br/>
+				<br/>
+				<div className="row">
+					<form className="col-md-3" onSubmit={this.addMovie}>
+					  <div className="form-group">
+					    <label htmlFor="newMovie">Add a Movie!</label>
+					    <br/>
+					    <span className="text-danger">{this.state.error}</span>
+					    <input onChange={this.handleNewMovieChange} type="text" value={this.state.newMovie} className="form-control" id="newMovie" placeholder="Movie Name"/>
+					  </div>
+					  <button type="submit" className="btn btn-primary">ADD</button>
+					</form>
+					<div className="col-md-4"></div> 
+					<MovieList updatedInfo={this.updatedInfo} deleteMovie={this.deleteMovie} movies={this.state.movies}/>
+				</div>
 			</div>
 		);
 	}

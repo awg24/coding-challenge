@@ -5,7 +5,7 @@ module.exports = React.createClass({
 	render: function(){
 		return (
 			<div>
-				testing completed
+				React routing works!
 			</div>
 		);
 	}
