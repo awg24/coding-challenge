@@ -9,6 +9,9 @@ module.exports = React.createClass({
 
 		}
 	},
+	componentWillReceiveProps: function(nextProps) {
+		this.setState({results: []});	
+	},
 	search: function(e){
 		var that = this;
 		var reg = new RegExp("^"+e.target.value, 'gi');

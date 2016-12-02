@@ -8,7 +8,8 @@ module.exports = React.createClass({
 		return {
 			movies: [],
 			newMovie: "",
-			error: ""
+			error: "",
+			didUpdate: false
 		}	
 	},
 	componentDidMount: function() {
@@ -44,12 +45,12 @@ module.exports = React.createClass({
 		var movies = this.state.movies.slice(0);
 		movies.splice(index, 1, updatedMovie);
 		localStorage.setItem("movies", JSON.stringify(movies));
-		this.setState({movies: movies});
+		this.setState({movies: movies, didUpdate: true});
 	},
 	render: function(){
 		return (
 			<div>
-				<Search updatedInfo={this.updatedInfo} deleteMovie={this.deleteMovie} movies={this.state.movies} />	
+				<Search didUpdate={this.state.didUpdate} updatedInfo={this.updatedInfo} deleteMovie={this.deleteMovie} movies={this.state.movies} />	
 				<br/>
 				<br/>
 				<div className="row">
