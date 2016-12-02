@@ -12,11 +12,11 @@ module.exports = React.createClass({
 		this.setState(info);
 	},
 	toggleInfoForm: function(){
-		console.log("why no i get called")
 		this.setState({activeForm: !this.state.activeForm});
 	},
 	componentWillReceiveProps: function(nextProps) {
-		this.setState(nextProps.movie)
+		var state = Object.assign(nextProps.movie, {activeForm: false});
+		this.setState(state);
 	},
 	render: function(){
 		return this.state.activeForm ? (
