@@ -13,4 +13,4 @@
 - express to spin up a local server
 - react-router for SPA-ness
 
-This app includes requirements for the challenge and does not reflect actual design decision I would have otherwise made
+This app includes requirements for the challenge and does not reflect actual design decisions I would have otherwise madeg
